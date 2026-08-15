@@ -6,3 +6,28 @@ const data={ai:{title:'Enterprise AI ITSM Automation',sub:'High-level architectu
 function openCase(key){const d=data[key];if(!d)return;let modal=document.querySelector('#caseStudyModal');if(!modal){modal=document.createElement('div');modal.id='caseStudyModal';modal.className='case-study-modal';document.body.appendChild(modal);}modal.innerHTML=`<div class="case-study-dialog"><button class="case-close" aria-label="Close">×</button><p class="eyebrow">CASE STUDY</p><h3>${d.title}</h3><p><strong>${d.sub}</strong></p><p>${d.body}</p><div class="architecture">${d.flow.map((x,i)=>`<span>${x}</span>${i<d.flow.length-1?'<i>↓</i>':''}`).join('')}</div><div class="case-detail-grid">${d.details.map(x=>`<div class="case-detail"><strong>${x[0]}</strong><small>${x[1]}</small></div>`).join('')}</div></div>`;modal.classList.add('open');document.body.style.overflow='hidden';const close=()=>{modal.classList.remove('open');document.body.style.overflow=''};modal.querySelector('.case-close').onclick=close;modal.onclick=e=>{if(e.target===modal)close();};}
 document.querySelectorAll('[data-case]').forEach(b=>b.addEventListener('click',()=>openCase(b.dataset.case)));
 })();
+
+// Add direct GitHub proof buttons to the four academic project cards.
+(()=>{
+  const projects=[
+    ['Justice Unheard','https://github.com/Vasumathi2002/JusticeUnheard'],
+    ['TECCR','https://github.com/Vasumathi2002/TECCR'],
+    ['Pulmonary Ailment Classification','https://github.com/Vasumathi2002/Pulmonary-Ailment-Classification'],
+    ['Residential Property Valuation','https://github.com/Vasumathi2002/Residential-Property-Valuation']
+  ];
+  const style=document.createElement('style');
+  style.textContent='.academic-code{display:inline-flex;margin-top:14px;font-size:10px;padding:8px 12px;}';
+  document.head.appendChild(style);
+  document.querySelectorAll('.academic-project').forEach(card=>{
+    const title=card.querySelector('strong')?.textContent.trim();
+    const match=projects.find(([name])=>name===title);
+    if(!match || card.querySelector('.academic-code')) return;
+    const link=document.createElement('a');
+    link.className='btn small academic-code';
+    link.href=match[1];
+    link.target='_blank';
+    link.rel='noreferrer';
+    link.textContent='View code ↗';
+    card.appendChild(link);
+  });
+})();
